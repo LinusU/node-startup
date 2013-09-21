@@ -1,0 +1,7 @@
+{
+  "name": "startup",
+  "version": "0.1.0",
+  "bin": {
+    "node-startup": "index.js"
+  }
+}

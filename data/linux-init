@@ -1,0 +1,91 @@
+#/bin/sh
+
+# NODE_STARTUP_APP="index.js"
+# NODE_STARTUP_DIR="/home/linus/myapp"
+# NODE_STARTUP_ENV="production"
+# NODE_STARTUP_NAME="myapp"
+# NODE_STARTUP_EXEC="/usr/local/bin/node"
+
+FILE_PID=$NODE_STARTUP_DIR/node-startup.pid
+FILE_LOG=$NODE_STARTUP_DIR/node-startup.log
+
+###############
+
+# REDHAT chkconfig header
+
+# chkconfig: - 58 74
+# description: node-app is the script for starting a node app on boot.
+### BEGIN INIT INFO
+# Provides: node
+# Required-Start:    $network $remote_fs $local_fs
+# Required-Stop:     $network $remote_fs $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: start and stop node
+# Description: Node process for app
+### END INIT INFO
+
+isRunning () {
+  if [ -f $FILE_PID ]; then
+    echo "$FILE_PID exists"
+    PID_STR=`cat $FILE_PID`
+    if ps -p $PID_STR > /dev/null; then
+      return 0
+    else
+      rm $FILE_PID
+      return 1
+    fi
+  else
+    return 1
+  fi
+}
+
+appStart () {
+  cd $NODE_STARTUP_DIR
+  NODE_ENV=$NODE_STARTUP_ENV $NODE_STARTUP_EXEC $NODE_STARTUP_APP 1>>$FILE_LOG 2>&1 &
+  echo $! > $FILE_PID
+}
+
+appStop () {
+  kill `cat $FILE_PID`
+  rm $FILE_PID
+}
+
+case "$1" in
+
+  start)
+    if isRunning; then
+      echo "$NODE_STARTUP_NAME is already running"
+    else
+      echo "Starting $NODE_STARTUP_NAME"
+      appStart
+      echo "Done"
+    fi
+    ;;
+
+  stop)
+    if isRunning; then
+      echo "Stopping $NODE_STARTUP_NAME"
+      appStop
+      echo "Done"
+    else
+      echo "$NODE_STARTUP_NAME is not running"
+    fi
+    ;;
+
+  restart)
+    if isRunning; then
+      echo "Restarting $NODE_STARTUP_NAME"
+      appStart
+      appStop
+      echo "Done"
+    else
+      echo "$NODE_STARTUP_NAME is not running"
+    fi
+    ;;
+
+  *)
+    echo "Usage: /etc/init.d/node-$NODE_STARTUP_NAME {start|stop|restart}"
+    ;;
+
+esac
