@@ -76,8 +76,8 @@ case "$1" in
   restart)
     if isRunning; then
       echo "Restarting $NODE_STARTUP_NAME"
-      appStart
       appStop
+      appStart
       echo "Done"
     else
       echo "$NODE_STARTUP_NAME is not running"
