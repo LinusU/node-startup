@@ -8,7 +8,7 @@ When my vps was rebooted occassionally by the hosting provider, my node.js app w
 
 ## Installation
 
-    npm install -g startup
+    npm install -g cmd-startup
 
 ## Usage
 
