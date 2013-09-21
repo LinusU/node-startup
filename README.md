@@ -1,10 +1,10 @@
 #node-startup
 
-Make you'r node apps start with the computer.
+Make your node apps start with the computer.
 
 ## Why node-startup?
 
-When my vps was rebooted occassionally by the hosting provider, my node.js app was not coming back online. This script can be used to restart your app when the machine reboots without your knowledge.
+When `chovy`'s vps was rebooted occassionally by the hosting provider, his node.js app was not coming back online. This script can be used to restart your app when the machine reboots without your knowledge.
 
 ## Installation
 
@@ -12,7 +12,7 @@ When my vps was rebooted occassionally by the hosting provider, my node.js app w
 
 ## Usage
 
-	sudo node-startup /path/to/package.json
+    sudo node-startup /path/to/package.json
 
 ## OS Support
 
