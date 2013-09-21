@@ -1,5 +1,7 @@
+#!/usr/bin/env node
 
 var os = require('os');
+var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').exec;
 
@@ -13,21 +15,21 @@ switch(os.type()) {
     throw new Error('Your OS is currently not supported by node-startup.');
 }
 
-if(process.argv[1]) {
+if(process.argv[2]) {
 
-  var dir = path.dirname(process.argv[1]);
-  var data = fs.readFileSync(process.argv[1], { encoding: 'utf8' });
-  var info = JSON.prase(data);
+  var file = fs.realpathSync(process.argv[2]);
+  var data = fs.readFileSync(file, { encoding: 'utf8' });
+  var info = JSON.parse(data);
 
   exec('which node', function (err, out) {
     if(err) { throw err; }
 
     var cfg = {
       app: (info.main || 'index.js'),
-      dir: dir,
+      dir: path.dirname(file),
       env: 'production',
       name: info.name,
-      exec: out.toString()
+      exec: out.toString().trim()
     };
 
     if(!cfg.name) { throw new Error('Name missing from package.json'); }
