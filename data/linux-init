@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 
 # NODE_STARTUP_APP="index.js"
 # NODE_STARTUP_DIR="/home/linus/myapp"
