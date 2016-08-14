@@ -1,6 +1,8 @@
 {
   "name": "cmd-startup",
   "version": "0.1.2",
+  "license": "MIT",
+  "repository": "LinusU/node-startup",
   "bin": {
     "node-startup": "index.js"
   }
